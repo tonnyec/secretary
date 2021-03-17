@@ -10,7 +10,7 @@ Secretary
 ============
 Take the power of Jinja2 templates to OpenOffice or LibreOffice and create reports and letters in your web applications.
 
-See full `documentation on Github <https://github.com/christopher-ramirez/secretary/blob/master/README.md>`_
+See full `documentation on Github <https://github.com/tonnyec/secretary/blob/master/README.md>`_
 ."""
 
 class PyTest(TestCommand):
@@ -26,8 +26,8 @@ class PyTest(TestCommand):
 
 setup(
     name='secretary',
-    version='0.2.19',
-    url='https://github.com/christopher-ramirez/secretary',
+    version='0.2.20',
+    url='https://github.com/tonnyec/secretary',
     license='MIT',
     author='Christopher Ramírez',
     author_email='chris.ramirezg@gmail.com',

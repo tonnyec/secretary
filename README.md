@@ -173,6 +173,7 @@ engine.FLOAT_CONVERT = FLOAT_CONVERT_NONE
 ```
 
 ### Version History
+* **0.2.20**: Fork tonnyec hack convert float
 * **0.2.19**: Fix bug in Markdown filter on Python 3. See [#47](https://github.com/christopher-ramirez/secretary/issues/47).
 * **0.2.18**:
     1. Auto escaping of Secretary URL scheme was not working on Python 3.

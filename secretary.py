@@ -69,6 +69,10 @@ FLOW_REFERENCES = {
     'after::cell'        : 'table:table-cell',
 }
 
+FLOAT_CONVERT_ALL = 0 # Try to convert all numbers to float style
+FLOAT_CONVERT_ONLY_FLOAT_STYLE = 1 # try to convert cells with style name contains 'float'
+FLOAT_CONVERT_NONE = 2 # Not convert
+
 # ---- Exceptions
 class SecretaryError(Exception):
     pass
@@ -130,6 +134,7 @@ class Renderer(object):
         """
         self.log = logging.getLogger(__name__)
         self.log.debug('Initing a Renderer instance\nTemplate')
+        self.FLOAT_CONVERT = FLOAT_CONVERT_ALL
 
         if environment:
             self.environment = environment
@@ -587,6 +592,27 @@ class Renderer(object):
             result = jinja_template.render(**kwargs)
 
             final_xml = parseString(result.encode('ascii', 'xmlcharrefreplace'))
+
+            # float convert
+            if self.FLOAT_CONVERT != FLOAT_CONVERT_NONE:
+                paras = final_xml.getElementsByTagName('text:p')
+                for p in paras:
+                    for ch in p.childNodes:
+                        if ch.nodeType == ch.TEXT_NODE:
+                            try:
+                                if self.FLOAT_CONVERT == FLOAT_CONVERT_ONLY_FLOAT_STYLE:
+                                    style = p.parentNode.getAttribute('table:style-name')
+                                    if 'float' not in style.lower():
+                                        continue
+
+                                float(ch.data)
+                                p.parentNode.attributes['office:value-type'] = 'float'
+                                p.parentNode.attributes['calcext:value-type'] = 'float'
+                                p.parentNode.attributes['office:value'] = ch.data
+                            except Exception as e:
+                                continue
+
+
             if self.template_images:
                 self.replace_images(final_xml)
 

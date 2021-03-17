@@ -158,6 +158,20 @@ Pad zeroes to `value` to the left until output value's length be equal to `lengt
 ### Features of jinja2 not supported
 Secretary supports most of the jinja2 control structure/flow tags. But please avoid using the following tags since they are not supported: `block`, `extends`, `macro`, `call`, `include` and `import`.
 
+### Float convert in ODS files
+- Now secretary convert all text numbers in float cells by default.
+```
+FLOAT_CONVERT = FLOAT_CONVERT_ALL
+```
+- If you want convert only cells with style name contains  'float' word, (Open styles bar in calc with F11 key)
+```
+engine.FLOAT_CONVERT = FLOAT_CONVERT_ONLY_FLOAT_STYLE
+```
+- If you don't want convert
+```
+engine.FLOAT_CONVERT = FLOAT_CONVERT_NONE
+```
+
 ### Version History
 * **0.2.19**: Fix bug in Markdown filter on Python 3. See [#47](https://github.com/christopher-ramirez/secretary/issues/47).
 * **0.2.18**:

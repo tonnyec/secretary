@@ -8,6 +8,5 @@
 .tox
 .cache
 .vscode
-dist
 build
 eggs

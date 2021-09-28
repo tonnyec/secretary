@@ -595,6 +595,11 @@ class Renderer(object):
 
             # float convert
             if self.FLOAT_CONVERT != FLOAT_CONVERT_NONE:
+                styles_dom = final_xml.getElementsByTagName('style:style')
+                styles = {}
+                for s in styles_dom:
+                    styles[s.getAttribute('style:name')] = s.getAttribute('style:parent-style-name')
+
                 paras = final_xml.getElementsByTagName('text:p')
                 for p in paras:
                     for ch in p.childNodes:
@@ -603,7 +608,8 @@ class Renderer(object):
                                 if self.FLOAT_CONVERT == FLOAT_CONVERT_ONLY_FLOAT_STYLE:
                                     style = p.parentNode.getAttribute('table:style-name')
                                     if 'float' not in style.lower():
-                                        continue
+                                        if 'float' not in styles[style]:
+                                            continue
 
                                 float(ch.data)
                                 p.parentNode.attributes['office:value-type'] = 'float'
@@ -612,13 +618,12 @@ class Renderer(object):
                             except Exception as e:
                                 continue
 
-
             if self.template_images:
                 self.replace_images(final_xml)
 
             return final_xml
         except ExpatError as e:
-            if not 'result' in locals():
+            if 'result' not in locals():
                 result = xml_source
             near = result.split('\n')[e.lineno -1][e.offset-200:e.offset+200]
 
